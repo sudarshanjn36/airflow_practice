@@ -1,0 +1,39 @@
+[2025-04-11T08:52:30.028+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: query_email_every_2hrs.query_postgres manual__2025-04-11T08:52:27.967001+00:00 [queued]>
+[2025-04-11T08:52:30.039+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: query_email_every_2hrs.query_postgres manual__2025-04-11T08:52:27.967001+00:00 [queued]>
+[2025-04-11T08:52:30.040+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2025-04-11T08:52:30.055+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): query_postgres> on 2025-04-11 08:52:27.967001+00:00
+[2025-04-11T08:52:30.067+0000] {standard_task_runner.py:60} INFO - Started process 347 to run task
+[2025-04-11T08:52:30.070+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'query_email_every_2hrs', 'query_postgres', 'manual__2025-04-11T08:52:27.967001+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/query_email_dag.py', '--cfg-path', '/tmp/tmpjll6ju60']
+[2025-04-11T08:52:30.072+0000] {standard_task_runner.py:88} INFO - Job 7: Subtask query_postgres
+[2025-04-11T08:52:30.099+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-04-11T08:52:30.138+0000] {task_command.py:423} INFO - Running <TaskInstance: query_email_every_2hrs.query_postgres manual__2025-04-11T08:52:27.967001+00:00 [running]> on host 7a9df312bb09
+[2025-04-11T08:52:30.223+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='query_email_every_2hrs' AIRFLOW_CTX_TASK_ID='query_postgres' AIRFLOW_CTX_EXECUTION_DATE='2025-04-11T08:52:27.967001+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-04-11T08:52:27.967001+00:00'
+[2025-04-11T08:52:30.239+0000] {base.py:83} INFO - Using connection ID 'my_postgres_conn' for task execution.
+[2025-04-11T08:52:30.498+0000] {sql.py:450} INFO - Running statement: SELECT * FROM your_table LIMIT 10;, parameters: None
+[2025-04-11T08:52:30.508+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/query_email_dag.py", line 24, in get_postgres_data
+    results = hook.get_records(sql)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 261, in get_records
+    return self.run(sql=sql, parameters=parameters, handler=fetch_all_handler)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 398, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 455, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.UndefinedTable: relation "your_table" does not exist
+LINE 1: SELECT * FROM your_table LIMIT 10;
+                      ^
+
+[2025-04-11T08:52:30.522+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=query_email_every_2hrs, task_id=query_postgres, execution_date=20250411T085227, start_date=20250411T085230, end_date=20250411T085230
+[2025-04-11T08:52:30.535+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 7 for task query_postgres (relation "your_table" does not exist
+LINE 1: SELECT * FROM your_table LIMIT 10;
+                      ^
+; 347)
+[2025-04-11T08:52:30.568+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2025-04-11T08:52:30.593+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
