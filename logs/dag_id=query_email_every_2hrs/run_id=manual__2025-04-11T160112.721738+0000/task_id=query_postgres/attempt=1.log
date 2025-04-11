@@ -1,0 +1,42 @@
+[2025-04-11T16:01:14.599+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: query_email_every_2hrs.query_postgres manual__2025-04-11T16:01:12.721738+00:00 [queued]>
+[2025-04-11T16:01:14.614+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: query_email_every_2hrs.query_postgres manual__2025-04-11T16:01:12.721738+00:00 [queued]>
+[2025-04-11T16:01:14.615+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2025-04-11T16:01:14.638+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): query_postgres> on 2025-04-11 16:01:12.721738+00:00
+[2025-04-11T16:01:14.650+0000] {standard_task_runner.py:60} INFO - Started process 279 to run task
+[2025-04-11T16:01:14.654+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'query_email_every_2hrs', 'query_postgres', 'manual__2025-04-11T16:01:12.721738+00:00', '--job-id', '48', '--raw', '--subdir', 'DAGS_FOLDER/query_email_dag.py', '--cfg-path', '/tmp/tmpck_8t12p']
+[2025-04-11T16:01:14.658+0000] {standard_task_runner.py:88} INFO - Job 48: Subtask query_postgres
+[2025-04-11T16:01:14.687+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-04-11T16:01:14.749+0000] {task_command.py:423} INFO - Running <TaskInstance: query_email_every_2hrs.query_postgres manual__2025-04-11T16:01:12.721738+00:00 [running]> on host 88ab7e40fbb2
+[2025-04-11T16:01:14.895+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='query_email_every_2hrs' AIRFLOW_CTX_TASK_ID='query_postgres' AIRFLOW_CTX_EXECUTION_DATE='2025-04-11T16:01:12.721738+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-04-11T16:01:12.721738+00:00'
+[2025-04-11T16:01:14.910+0000] {base.py:83} INFO - Using connection ID 'my_postgres_conn' for task execution.
+[2025-04-11T16:01:14.913+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/query_email_dag.py", line 27, in get_postgres_data
+    results = hook.get_records(sql)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 261, in get_records
+    return self.run(sql=sql, parameters=parameters, handler=fetch_all_handler)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 391, in run
+    with closing(self.get_conn()) as conn:
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/postgres/hooks/postgres.py", line 158, in get_conn
+    self.conn = psycopg2.connect(**conn_args)
+  File "/home/airflow/.local/lib/python3.8/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+[2025-04-11T16:01:14.928+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=query_email_every_2hrs, task_id=query_postgres, execution_date=20250411T160112, start_date=20250411T160114, end_date=20250411T160114
+[2025-04-11T16:01:14.943+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 48 for task query_postgres (connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+; 279)
+[2025-04-11T16:01:14.952+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2025-04-11T16:01:14.984+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -20,7 +20,10 @@ with DAG(
 
     def get_postgres_data(**kwargs):
         hook = PostgresHook(postgres_conn_id='my_postgres_conn')  # Set this in Airflow UI
-        sql = "SELECT * FROM your_table LIMIT 10;"  # 👉 Replace with your real query
+        sql = sql = """
+                    select * from athletes where noc = 'India' and discipline='Boxing'
+                    """
+
         results = hook.get_records(sql)
 
         # Convert query result into HTML table
@@ -40,7 +43,7 @@ with DAG(
 
     send_email = EmailOperator(
         task_id='send_email',
-        to='your_email@example.com',  # 👉 Replace with your email
+        to='sudarshanjn30@gmail.com',  # 👉 Replace with your email
         subject='Automated Postgres Report',
         html_content="{{ ti.xcom_pull(task_ids='query_postgres', key='query_results') }}",
     )
